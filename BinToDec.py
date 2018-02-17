@@ -1,34 +1,30 @@
 def BinToDec():
 
     BinRaw = input("Please enter a binary number:" )
-    BinList = list(BinRaw)
+    BinRawList = list(BinRaw)
     Bin = False 
     Dec = 0
 
 
-
-
-    #Checks if all items in BinRawList are equal or less than 1 and equal or more than 0  
-    if all(i <= "1" and i >= "0" for i in BinList) == True:
-        Bin = True
-    
-    #Does the same thing as the if statement but also checks for dots and commass 
-    elif all(i <= "1" and i >= "0" or i == "." or i == "," for i in BinList) == True:
-        BinAfterComma = []
-        BinPreComma = []
+	
+    #Checks if all items in BinRawList are equal or less than 1 and equal or more than 0.
+    if all(i <= "1" and i >= "0" or i == "." or i == "," for i in BinRawList) == True:
+        BinComma = []
+        BinList = []
         
-        while BinList:
-            BinListPop = BinList.pop(0)
+        while BinRawList:
+            BinListPop = BinRawList.pop(0)
 
+            #If the binary number has a comma in it then adds the numbers after comma into another list.
             if any(x in BinListPop for x in [",", "."]):
-                while BinList:
-                    BinListPop = BinList.pop(0)
-                    BinAfterComma.append(BinListPop)
+                while BinRawList:
+                    BinListPop = BinRawList.pop(0)
+                    BinComma.append(BinListPop)
            
             else:   
-                BinPreComma.append(BinListPop)
+                BinList.append(BinListPop)
          
-        Comma = True
+        Bin = True
 
     else:
         print(BinRaw + " isn't a binary number!")
@@ -36,34 +32,19 @@ def BinToDec():
 
 
 
+    #If the number is binary then converts the number into decimal.
+    if Bin == True:
+        while BinList:
+            Possision = len(BinList)
+            BinListPop = BinList.pop(0)
+            DecRaw = 2 ** (0 + Possision - 1) * int(BinListPop) # 2 to the power of possision times the number in that possision
+            Dec = Dec + DecRaw
+    
+	#If the number contains a comma then it does the calculations for it seperatelly.        
+        while BinComma:
+            PossisionComma = len(BinComma)    
+            BinCommaPop = float(BinComma.pop(0))
+            DecRaw = BinCommaPop / 2 ** PossisionComma #Binary number devited by 2 to the power of the possision of said binary number 
+            Dec = Dec + DecRaw
 
-	#If the number is binary and there's a comma/dot then converts the number into decimal.
-	if Comma == True:
-		
-		while BinPreComma:
-			Possision = len(BinPreComma)
-			PreCommaPop = BinPreComma.pop(0)
-			DecRaw = 2 ** (0 + Possision - 1) * int(PreCommaPop) # 2 to the power of possision times the number in that possision
-			Dec = Dec + DecRaw
-			
-		while BinAfterComma:
-			PossisionComma = len(BinAfterComma)	
-			AfterCommaPop = float(BinAfterComma.pop(0))
-			DecRaw = AfterCommaPop / 2 ** PossisionComma #Binary number devited by 2 to the power of the possision of said binary number 
-			Dec = Dec + DecRaw
-
-
-
-
-
-#If no Comma is present and if number is binary then converts it into a decimal number
-	elif Bin == True:
-		
-		while BinList:
-			Possision = len(BinList)
-			BinListPop = int(BinList.pop(0))  
-			
-			DecRaw = 2 ** (0 + Possision -1) * BinListPop # 2 to the power of possision times the number in that possision
-			Dec = Dec + DecRaw
-			
-	print("The Decimal version of " + BinRaw + " is " + str(Dec)) #Wohoo! Finally done!
+    print("The Decimal version of " + BinRaw + " is " + str(Dec)) #Wohoo! Finally done! Took me long enough!
